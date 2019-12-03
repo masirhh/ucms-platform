@@ -15,7 +15,7 @@ public class Club {
     public static final String FIELD_NAME = "name";
     public static final String FIELD_DESCRIPTION = "description";
     public static final String FIELD_MEMBERS = "members";
-    public static final String FIELD_CREATETIME = "createtime";
+    public static final String FIELD_CREATE_TIME = "create_time";
     public static final String FIELD_ENABLE_FLAG = "enable_flag";
     public static final String FIELD_TYPE = "type";
     public static final String FIELD_ADMIN = "admin";
@@ -26,7 +26,7 @@ public class Club {
     private String name;
     private String description;
     private Long members;
-    private Date createtime;
+    private Date createTime;
     private Integer enableFlag;
     private String type;
     private Long admin;

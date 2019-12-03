@@ -12,13 +12,13 @@ public class UserClub {
     public static final String FIELD_ID="id";
     public static final String FIELD_USER_ID="user_id";
     public static final String FIELD_CLUB_ID="club_id";
-    public static final String FIELD_JOINTIME="jointime";
-    public static final String FIELD_QUITTIME="quittime";
+    public static final String FIELD_JOIN_TIME="join_time";
+    public static final String FIELD_QUIT_TIME="quit_time";
 
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     private Long userId;
     private Long clubId;
-    private Date jointime;
-    private Date quittime;
+    private Date joinTime;
+    private Date quitTime;
 }
