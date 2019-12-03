@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.masirhh.ucmsplatform.domain.Club;
 import com.masirhh.ucmsplatform.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
