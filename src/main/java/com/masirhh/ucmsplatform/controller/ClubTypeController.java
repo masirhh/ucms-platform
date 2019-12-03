@@ -1,5 +1,6 @@
 package com.masirhh.ucmsplatform.controller;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.masirhh.ucmsplatform.domain.ClubType;
 import com.masirhh.ucmsplatform.service.ClubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +17,20 @@ public class ClubTypeController {
     ClubTypeService clubTypeService;
 
     @GetMapping
-    public ResponseEntity<List<ClubType>> getClubType(){
+    public R<List<ClubType>> getClubType() {
         List<ClubType> list = clubTypeService.list();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return R.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClubType> getClubTypeDetail(@PathVariable(value = "id") Long id){
+    public R<ClubType> getClubTypeDetail(@PathVariable(value = "id") Long id) {
         ClubType byId = clubTypeService.getById(id);
-        return new ResponseEntity<>(byId,HttpStatus.OK);
+        return R.ok(byId);
     }
 
     @PostMapping
-    public ResponseEntity<ClubType> insertClubType(ClubType clubType){
+    public R<ClubType> insertClubType(ClubType clubType) {
         boolean save = clubTypeService.save(clubType);
-        return save?new ResponseEntity<>(clubType,HttpStatus.OK):new ResponseEntity<>(clubType,HttpStatus.REQUEST_TIMEOUT);
+        return save ? R.ok(clubType) : R.failed("Error!");
     }
 }
