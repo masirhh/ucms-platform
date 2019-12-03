@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.masirhh.ucmsplatform.mapper.ClubMapper">
+    <select id="listClub" resultType="com.masirhh.ucmsplatform.domain.Club">
+        select
+            ucb.*,
+            uct.name type_name
+        FROM
+            up_club ucb,
+            up_club_type uct
+        where
+            ucb.type=uct.id
+    </select>
+</mapper>
