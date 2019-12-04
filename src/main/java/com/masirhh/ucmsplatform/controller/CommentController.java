@@ -19,18 +19,33 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    /**
+     * 获取评论列表
+     *
+     * @return 评论列表
+     */
     @GetMapping
     public R<List<Comment>> getComment() {
         List<Comment> list = commentService.list();
         return R.ok(list);
     }
 
+    /***
+     * 新建评论
+     * @param comment 评论
+     * @return 新建的评论
+     */
     @PostMapping
     public R<Comment> insertComment(Comment comment) {
         boolean save = commentService.save(comment);
         return save ? R.ok(comment) : R.failed("Error!");
     }
 
+    /***
+     * 删除评论
+     * @param comment 评论
+     * @return 删除的评论
+     */
     @DeleteMapping
     public R<Comment> deleteComment(Comment comment) {
         boolean b = commentService.removeById(comment.getId());
