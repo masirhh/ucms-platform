@@ -17,10 +17,10 @@ public class UserClubServiceImpl extends ServiceImpl<UserClubMapper, UserClub> i
     ClubService clubService;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveUserAndClub(UserClub userClub) {
         boolean b = this.save(userClub);
         boolean b1 = clubService.update(new UpdateWrapper<Club>().setSql("members=members+1 where id =" + userClub.getClubId()));
-        return b==b1?true:false;
+        return b == b1 ? true : false;
     }
 }

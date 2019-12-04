@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ClubService extends IService<Club> {
     /**
-     * 删除社团以及人员-社团关联表
+     * 删除社团以及对应的社团成员
      * @param club
-     * @return
+     * @return 是否删除成功
      */
     boolean removeClubAndUser(Club club);
 

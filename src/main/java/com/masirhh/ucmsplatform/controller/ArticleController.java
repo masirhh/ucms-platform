@@ -71,7 +71,7 @@ public class ArticleController {
      */
     @DeleteMapping
     public R<Article> deleteArticle(Article article) {
-        boolean b = articleService.removeById(article.getId());
+        boolean b = articleService.removeArticleAndComments(article);
         return b ? R.ok(article) : R.failed("Error!");
     }
 }

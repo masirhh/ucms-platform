@@ -66,7 +66,7 @@ public class UserController {
      */
     @DeleteMapping()
     public R<User> deleteUser(User user) {
-        boolean b = userService.removeById(user.getId());
+        boolean b = userService.removeUser(user);
         return b ? R.ok(user) : R.failed("Error!");
     }
 }

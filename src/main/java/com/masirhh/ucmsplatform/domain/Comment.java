@@ -16,6 +16,12 @@ import java.util.Date;
 @TableName(value = "up_comment")
 public class Comment {
 
+    public static final String FIELD_ID="id";
+    public static final String FIELD_CONTENT="content";
+    public static final String FIELD_CREATE_TIME="create_time";
+    public static final String FIELD_USER_ID="user_id";
+    public static final String FIELD_ARTICLE_ID="article_id";
+
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     private String content;
