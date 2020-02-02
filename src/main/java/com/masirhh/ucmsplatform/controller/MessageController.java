@@ -14,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/ucms/message")
 public class MessageController {
     @Autowired
