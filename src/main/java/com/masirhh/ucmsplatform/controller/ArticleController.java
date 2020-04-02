@@ -48,7 +48,8 @@ public class ArticleController {
      * @return 文章
      */
     @PostMapping()
-    public R<Article> insertArticle(Article article) {
+    public R<Article> insertArticle(@RequestBody Article article) {
+        System.out.println(article);
         boolean save = articleService.save(article);
         return save ? R.ok(article) : R.failed("Error");
     }

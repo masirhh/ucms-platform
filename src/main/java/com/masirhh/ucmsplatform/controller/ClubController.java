@@ -1,11 +1,15 @@
 package com.masirhh.ucmsplatform.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.masirhh.ucmsplatform.domain.Club;
 import com.masirhh.ucmsplatform.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,6 +27,35 @@ public class ClubController {
     public R<List<Club>> getClub() {
         List list = clubService.listClub();
         return R.ok(list);
+    }
+
+
+    @GetMapping("/search-club")
+    public R<PageInfo<Club>> getPageclubByName(Integer pageNum, String cname) {
+        PageHelper.startPage(pageNum, 6);
+        List list = new ArrayList();
+        if (cname != null) {
+            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname));
+            PageInfo pageInfo = new PageInfo(list);
+            return R.ok(pageInfo);
+        }
+        list = clubService.list();
+        PageInfo pageInfo = new PageInfo(list);
+        return R.ok(pageInfo);
+    }
+
+    @GetMapping("/search-club-bytype")
+    public R<PageInfo<Club>> getPageclubByType(Integer pageNum, String cname, Long ctypeid) {
+        PageHelper.startPage(pageNum, 6);
+        List list = new ArrayList();
+        if (cname != null) {
+            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname).eq(Club.FIELD_TYPE, ctypeid));
+            PageInfo pageInfo = new PageInfo(list);
+            return R.ok(pageInfo);
+        }
+        list = clubService.list(new QueryWrapper<Club>().eq(Club.FIELD_TYPE, ctypeid));
+        PageInfo pageInfo = new PageInfo(list);
+        return R.ok(pageInfo);
     }
 
     /***

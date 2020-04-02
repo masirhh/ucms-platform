@@ -1,10 +1,12 @@
 package com.masirhh.ucmsplatform.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.masirhh.ucmsplatform.domain.User;
 import com.masirhh.ucmsplatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -16,14 +18,26 @@ public class UserController {
     UserService userService;
 
     /***
-     * 查询所有用户信息
-     * @return 用户列表
+     * 用户登陆
+     * @param user
+     * @return 登陆的用户信息
      */
     @GetMapping()
+    public R<User> loginUser(User user) {
+        User one = userService.loginUser(user);
+        return one != null ? R.ok(one) : R.failed("Error");
+    }
+
+    /***
+     * 分页查询所有用户信息
+     * @return 用户列表
+     */
+    @GetMapping("/pageUser")
     public R<List<User>> getUser() {
         List<User> users = userService.list();
         return R.ok(users);
     }
+
 
     /***
      * 查询用户详情
@@ -43,7 +57,8 @@ public class UserController {
      * @return 创建的用户
      */
     @PostMapping()
-    public R<User> insertUser(User user) {
+    public R<User> insertUser(@RequestBody User user) {
+        System.out.println(user);
         boolean insert = userService.save(user);
         return insert ? R.ok(user) : R.failed("Error!");
     }
@@ -68,6 +83,6 @@ public class UserController {
     @DeleteMapping()
     public R<User> deleteUser(User user) {
         boolean b = userService.removeUser(user);
-        return b ? R.ok(user) : R.failed("Error!");
+        return b ? R.ok(user) : null;
     }
 }

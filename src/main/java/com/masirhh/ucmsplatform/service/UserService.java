@@ -10,4 +10,6 @@ public interface UserService extends IService<User> {
      * @return 是否删除成功
      */
     boolean removeUser(User user);
+
+    User loginUser(User user);
 }
