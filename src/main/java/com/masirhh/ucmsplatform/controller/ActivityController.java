@@ -33,6 +33,12 @@ public class ActivityController {
         return R.ok(pageActivity);
     }
 
+    /***
+     * 分页查询活动
+     * @param pageNum 当前页码
+     * @param actName 活动名称（搜索参数）
+     * @return
+     */
 
     @GetMapping("/searchact")
     public R<PageInfo<Activity>> searchActivity(Integer pageNum,String actName) {

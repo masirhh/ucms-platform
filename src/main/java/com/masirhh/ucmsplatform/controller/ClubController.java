@@ -29,7 +29,12 @@ public class ClubController {
         return R.ok(list);
     }
 
-
+    /***
+     * 分页搜索社团
+     * @param pageNum 当前页码
+     * @param cname 社团名称（搜索参数）
+     * @return
+     */
     @GetMapping("/search-club")
     public R<PageInfo<Club>> getPageclubByName(Integer pageNum, String cname) {
         PageHelper.startPage(pageNum, 6);
@@ -44,6 +49,13 @@ public class ClubController {
         return R.ok(pageInfo);
     }
 
+    /**
+     * 分页查询社团
+     * @param pageNum 当前页码
+     * @param cname 社团名称
+     * @param ctypeid 社团类型id（搜索参数）
+     * @return
+     */
     @GetMapping("/search-club-bytype")
     public R<PageInfo<Club>> getPageclubByType(Integer pageNum, String cname, Long ctypeid) {
         PageHelper.startPage(pageNum, 6);
