@@ -36,9 +36,9 @@ public class MessageController {
      * @return 新建的消息
      */
     @PostMapping
-    public R<Message> insertMessage(Message message) {
+    public R<Boolean> insertMessage(@RequestBody Message message) {
         boolean save = messageService.save(message);
-        return save ? R.ok(message) : R.failed("Error!");
+        return save ? R.ok(save) : R.failed("Error!");
     }
 
     /**
@@ -48,7 +48,7 @@ public class MessageController {
      * @return 删除的消息
      */
     @DeleteMapping
-    public R<Message> deleteMessage(Message message) {
+    public R<Message> deleteMessage(@RequestBody Message message) {
         boolean b = messageService.removeById(message.getId());
         return b ? R.ok(message) : R.failed("Error!");
     }

@@ -12,4 +12,21 @@
         where
             ucb.type=uct.id
     </select>
+
+    <select id="getClubDto" resultType="com.masirhh.ucmsplatform.domain.dto.ClubDto">
+        select
+            uc.*,
+            uct.name type_name,
+            uu.name manager_name
+        from
+            up_club uc,
+            up_club_type uct,
+            up_user uu
+        where
+            uc.id=#{id}
+        and
+            uc.type=uct.id
+        and
+            uc.admin=uu.id
+    </select>
 </mapper>

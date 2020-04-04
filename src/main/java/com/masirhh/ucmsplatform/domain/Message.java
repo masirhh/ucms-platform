@@ -22,4 +22,6 @@ public class Message {
     private Long toUserId;
     private String content;
     private Date createTime;
+    private Integer checked;
+    private Integer opreated;
 }

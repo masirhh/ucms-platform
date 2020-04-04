@@ -5,11 +5,15 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.masirhh.ucmsplatform.domain.Club;
+import com.masirhh.ucmsplatform.domain.dto.ClubDto;
 import com.masirhh.ucmsplatform.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,28 +42,29 @@ public class ClubController {
     @GetMapping("/search-club")
     public R<PageInfo<Club>> getPageclubByName(Integer pageNum, String cname) {
         PageHelper.startPage(pageNum, 6);
-        List list = new ArrayList();
+        List<Club> list = new ArrayList<>();
         if (cname != null) {
             list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname));
             PageInfo pageInfo = new PageInfo(list);
             return R.ok(pageInfo);
         }
-        list = clubService.list();
+        list=clubService.list();
         PageInfo pageInfo = new PageInfo(list);
         return R.ok(pageInfo);
     }
 
     /**
      * 分页查询社团
+     *
      * @param pageNum 当前页码
-     * @param cname 社团名称
+     * @param cname   社团名称
      * @param ctypeid 社团类型id（搜索参数）
      * @return
      */
     @GetMapping("/search-club-bytype")
     public R<PageInfo<Club>> getPageclubByType(Integer pageNum, String cname, Long ctypeid) {
         PageHelper.startPage(pageNum, 6);
-        List list = new ArrayList();
+        List<Club> list = new ArrayList();
         if (cname != null) {
             list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname).eq(Club.FIELD_TYPE, ctypeid));
             PageInfo pageInfo = new PageInfo(list);
@@ -76,9 +81,11 @@ public class ClubController {
      * @return 社团
      */
     @GetMapping("/{id}")
-    public R<Club> getClubDetail(@PathVariable(value = "id") Long id) {
-        Club byId = clubService.getById(id);
-        return R.ok(byId);
+    public R<ClubDto> getClubDetail(@PathVariable(value = "id") Long id) {
+        Club byId = new Club();
+        byId.setId(id);
+        ClubDto clubDto = clubService.getClubDto(byId);
+        return R.ok(clubDto);
     }
 
     /**

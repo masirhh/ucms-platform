@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.masirhh.ucmsplatform.domain.Activity;
 import com.masirhh.ucmsplatform.domain.Club;
 import com.masirhh.ucmsplatform.domain.UserClub;
+import com.masirhh.ucmsplatform.domain.dto.ClubDto;
 import com.masirhh.ucmsplatform.mapper.ClubMapper;
 import com.masirhh.ucmsplatform.service.ActivityService;
 import com.masirhh.ucmsplatform.service.ClubService;
@@ -40,5 +41,11 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club> implements Cl
     public List<Club> listClub() {
         List<Club> clubs = clubMapper.listClub();
         return clubs;
+    }
+
+    @Override
+    public ClubDto getClubDto(Club club) {
+        ClubDto clubDto = clubMapper.getClubDto(club);
+        return clubDto;
     }
 }
