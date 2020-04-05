@@ -3,6 +3,7 @@ package com.masirhh.ucmsplatform.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.masirhh.ucmsplatform.domain.User;
+import com.masirhh.ucmsplatform.feign.UcmsSystemFeign;
 import com.masirhh.ucmsplatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    UcmsSystemFeign ucmsSystemFeign;
+
 
     /***
      * 用户登陆
@@ -84,5 +88,11 @@ public class UserController {
     public R<User> deleteUser(User user) {
         boolean b = userService.removeUser(user);
         return b ? R.ok(user) : null;
+    }
+
+    @GetMapping("/url")
+    public R<String> getFileUrl(Long id){
+        R<String> url = ucmsSystemFeign.getUrl(id);
+        return url;
     }
 }
