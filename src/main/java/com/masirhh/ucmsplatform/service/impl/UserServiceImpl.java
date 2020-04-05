@@ -11,14 +11,10 @@ import com.masirhh.ucmsplatform.mapper.UserMapper;
 import com.masirhh.ucmsplatform.service.ArticleService;
 import com.masirhh.ucmsplatform.service.CommentService;
 import com.masirhh.ucmsplatform.service.UserService;
+import com.masirhh.ucmsplatform.tools.redisTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.masirhh.ucmsplatform.tools.redisTools;
-import redis.clients.jedis.Jedis;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -41,8 +37,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User one = this.getOne(new QueryWrapper<User>().eq(User.FIELD_NAME, user.getName())
                 .eq(User.FIELD_PASSWORD, user.getPassword()));
         if (one != null) {
-            redisTools.redisSet(one.getId().toString(), one.getId().toString());
+            // 将null值也传输过去
+            String loginedUser = JSON.toJSONString(one, SerializerFeature.WriteMapNullValue);
+            redisTools.redisSet(one.getId().toString(), loginedUser);
         }
+        return one == null ? null : one;
+    }
+
+    @Override
+    public User checkPwd(User user) {
+        User one =this.getOne(new QueryWrapper<User>().eq(User.FIELD_ID,user.getId()).eq(User.FIELD_PASSWORD,user.getPassword()));
         return one == null ? null : one;
     }
 }

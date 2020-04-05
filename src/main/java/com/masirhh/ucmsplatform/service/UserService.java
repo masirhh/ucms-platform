@@ -11,5 +11,12 @@ public interface UserService extends IService<User> {
      */
     boolean removeUser(User user);
 
+    /**
+     * 用户登陆 并将登陆信息存到redis中
+     * @param user
+     * @return
+     */
     User loginUser(User user);
+
+    User checkPwd(User user);
 }

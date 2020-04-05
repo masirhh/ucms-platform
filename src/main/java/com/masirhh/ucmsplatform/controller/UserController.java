@@ -27,10 +27,22 @@ public class UserController {
      * @return 登陆的用户信息
      */
     @GetMapping()
-    public R<User> loginUser(User user) {
+    public R<User> loginUser( User user) {
         User one = userService.loginUser(user);
         return one != null ? R.ok(one) : R.failed("Error");
     }
+
+    /***
+     * 检查用户密码是否正确
+     * @param user
+     * @return 用户信息
+     */
+    @GetMapping("/checkpwd")
+    public R<User> checkPwd(User user){
+        User one = userService.checkPwd(user);
+        return one != null ? R.ok(one) : R.failed("Error");
+    }
+
 
     /***
      * 分页查询所有用户信息
@@ -62,7 +74,6 @@ public class UserController {
      */
     @PostMapping()
     public R<User> insertUser(@RequestBody User user) {
-        System.out.println(user);
         boolean insert = userService.save(user);
         return insert ? R.ok(user) : R.failed("Error!");
     }
@@ -73,7 +84,7 @@ public class UserController {
      * @return 更新的用户
      */
     @PutMapping()
-    public R<User> updateUser(User user) {
+    public R<User> updateUser(@RequestBody User user) {
         boolean b = userService.updateById(user);
         return b ? R.ok(user) : R.failed("Error!");
     }
