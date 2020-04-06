@@ -48,7 +48,7 @@ public class ClubController {
             PageInfo pageInfo = new PageInfo(list);
             return R.ok(pageInfo);
         }
-        list=clubService.list();
+        list = clubService.list();
         PageInfo pageInfo = new PageInfo(list);
         return R.ok(pageInfo);
     }
@@ -86,6 +86,18 @@ public class ClubController {
         byId.setId(id);
         ClubDto clubDto = clubService.getClubDto(byId);
         return R.ok(clubDto);
+    }
+
+
+    /***
+     * 查询社团详情
+     * @param id 管理员id
+     * @return 社团
+     */
+    @GetMapping("/get-club-by-admin")
+    public R<Club> getClubByAdmin(@RequestParam(value = "id") Long id) {
+        Club one = clubService.getOne(new QueryWrapper<Club>().eq(Club.FIELD_ADMIN, id));
+        return R.ok(one);
     }
 
     /**

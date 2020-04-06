@@ -1,5 +1,6 @@
 package com.masirhh.ucmsplatform.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.masirhh.ucmsplatform.domain.Message;
 import com.masirhh.ucmsplatform.service.MessageService;
@@ -31,6 +32,16 @@ public class MessageController {
     }
 
     /***
+     * 获取我的消息列表
+     * @return
+     */
+    @GetMapping("/mymessage")
+    public R<List<Message>> getMyMessage(Message message) {
+        List<Message> list = messageService.list(new QueryWrapper<>(message));
+        return R.ok(list);
+    }
+
+    /***
      * 新建消息
      * @param message 消息
      * @return 新建的消息
@@ -50,6 +61,12 @@ public class MessageController {
     @DeleteMapping
     public R<Message> deleteMessage(@RequestBody Message message) {
         boolean b = messageService.removeById(message.getId());
+        return b ? R.ok(message) : R.failed("Error!");
+    }
+
+    @PutMapping
+    public R<Message> updateMessage(@RequestBody Message message){
+        boolean b = messageService.updateById(message);
         return b ? R.ok(message) : R.failed("Error!");
     }
 }
