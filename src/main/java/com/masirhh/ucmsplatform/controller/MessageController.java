@@ -2,6 +2,8 @@ package com.masirhh.ucmsplatform.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.masirhh.ucmsplatform.domain.Message;
 import com.masirhh.ucmsplatform.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,11 @@ public class MessageController {
      * @return
      */
     @GetMapping("/mymessage")
-    public R<List<Message>> getMyMessage(Message message) {
+    public R<PageInfo<Message> > getMyMessage(Message message,@RequestParam(value = "pageNum")Integer pageNum) {
+        PageHelper.startPage(pageNum,4);
         List<Message> list = messageService.list(new QueryWrapper<>(message));
-        return R.ok(list);
+        PageInfo<Message> messagePageInfo = new PageInfo(list);
+        return R.ok(messagePageInfo);
     }
 
     /***

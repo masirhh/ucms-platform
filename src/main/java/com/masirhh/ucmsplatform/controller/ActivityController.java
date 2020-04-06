@@ -1,6 +1,5 @@
 package com.masirhh.ucmsplatform.controller;
 
-import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
@@ -26,7 +25,6 @@ public class ActivityController {
      */
     @GetMapping
     public R<PageInfo<Activity>> getActivity(Integer pageNum) {
-
         PageHelper.startPage(pageNum,5);
         List<Activity> list = activityService.list(new QueryWrapper<Activity>().orderByDesc(Activity.FIELD_ORGANIZE_TIME));
         PageInfo pageActivity=new PageInfo(list);
@@ -42,7 +40,6 @@ public class ActivityController {
 
     @GetMapping("/searchact")
     public R<PageInfo<Activity>> searchActivity(Integer pageNum,String actName) {
-
         PageHelper.startPage(pageNum,5);
         List<Activity> list = activityService.list(new QueryWrapper<Activity>().like(Activity.FIELD_NAME,actName).orderByDesc(Activity.FIELD_ORGANIZE_TIME));
         PageInfo pageActivity=new PageInfo(list);
@@ -60,6 +57,14 @@ public class ActivityController {
         return R.ok(byId);
     }
 
+    @GetMapping("/myactivities")
+    public R<List<Activity>> getMyAct(@RequestParam(value = "clubId") Long clubId){
+        System.out.println(clubId);
+        List<Activity> list = activityService.list(new QueryWrapper<Activity>().eq(Activity.FIELD_CLUB_ID, clubId));
+        return R.ok(list);
+    }
+
+
     /**
      * 创建活动
      *
@@ -67,9 +72,10 @@ public class ActivityController {
      * @return 活动
      */
     @PostMapping()
-    public R<Activity> insertActivity(Activity activity) {
+    public R<Boolean> insertActivity(@RequestBody Activity activity) {
+        System.out.println(activity);
         boolean save = activityService.save(activity);
-        return save ? R.ok(activity) : R.failed("Error!");
+        return R.ok(save);
     }
 
     /**
@@ -91,8 +97,8 @@ public class ActivityController {
      * @return 活动
      */
     @DeleteMapping
-    public R<Activity> deleteActivity(Activity activity) {
+    public R<Boolean> deleteActivity(@RequestBody Activity activity) {
         boolean b = activityService.removeById(activity.getId());
-        return b ? R.ok(activity) : R.failed("Error!");
+        return R.ok(b);
     }
 }
