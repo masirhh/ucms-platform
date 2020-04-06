@@ -29,4 +29,12 @@
         and
             uc.admin=uu.id
     </select>
+
+    <select id="getUserByClubId" resultType="com.masirhh.ucmsplatform.domain.User">
+        select *
+        from up_user uu,
+             up_user_club uuc
+        where uu.id in
+        (select uuc.user_id from up_user_club where uuc.club_id = #{clubId})
+    </select>
 </mapper>

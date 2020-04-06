@@ -119,7 +119,7 @@ public class ClubController {
      * @return 修改的社团
      */
     @PutMapping
-    public R<Club> updateClub(Club club) {
+    public R<Club> updateClub(@RequestBody Club club) {
         boolean update = clubService.updateById(club);
         return update ? R.ok(club) : R.failed("Error!");
     }

@@ -26,4 +26,6 @@ public class Activity {
     private String organizeLocation;
     private Long userId;
     private Long clubId;
+    private Long article;
+    private Long Avatar;
 }
