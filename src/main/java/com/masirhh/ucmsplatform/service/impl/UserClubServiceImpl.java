@@ -1,5 +1,6 @@
 package com.masirhh.ucmsplatform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.masirhh.ucmsplatform.domain.Club;
@@ -34,5 +35,13 @@ public class UserClubServiceImpl extends ServiceImpl<UserClubMapper, UserClub> i
     public List<User> getUserByClubId(Long clubId) {
         List<User> users= clubMapper.getUserByClubId(clubId);
         return users;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteClubUser(UserClub userClub) {
+        boolean remove = this.remove(new QueryWrapper<UserClub>().eq(UserClub.FIELD_USER_ID, userClub.getUserId()).eq(UserClub.FIELD_CLUB_ID, userClub.getClubId()));
+        boolean update = clubService.update(new UpdateWrapper<Club>().setSql("members=members-1 where id =" + userClub.getClubId()));
+        return remove==update?true:false;
     }
 }

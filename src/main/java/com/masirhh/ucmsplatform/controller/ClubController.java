@@ -24,12 +24,20 @@ public class ClubController {
     private ClubService clubService;
 
     /***
-     * 查询社团列表
+     * 查询首页社团列表
      * @return 社团列表
      */
     @GetMapping
-    public R<List<Club>> getClub() {
+    public R<PageInfo<Club>> getClub(@RequestParam(value = "pageNum") Integer pageNum) {
+        PageHelper.startPage(pageNum,10);
         List list = clubService.listClub();
+        PageInfo<Club> pageInfo = new PageInfo(list);
+        return R.ok(pageInfo);
+    }
+
+    @GetMapping("/getall")
+    public R<List<Club>> getAllClub(){
+        List<Club> list = clubService.list();
         return R.ok(list);
     }
 
@@ -107,7 +115,7 @@ public class ClubController {
      * @return 新建的社团
      */
     @PostMapping
-    public R<Club> insertClub(Club club) {
+    public R<Club> insertClub(@RequestBody Club club) {
         boolean save = clubService.save(club);
         return save ? R.ok(club) : R.failed("Error!");
     }
@@ -130,7 +138,7 @@ public class ClubController {
      * @return 删除的社团
      */
     @DeleteMapping
-    public R<Club> deleteClub(Club club) {
+    public R<Club> deleteClub(@RequestBody Club club) {
         boolean delete = clubService.removeClubAndUser(club);
         return delete ? R.ok(club) : R.failed("Error!");
     }

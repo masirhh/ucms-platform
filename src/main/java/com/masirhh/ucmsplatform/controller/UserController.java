@@ -45,10 +45,10 @@ public class UserController {
 
 
     /***
-     * 分页查询所有用户信息
+     * 查询所有用户信息
      * @return 用户列表
      */
-    @GetMapping("/pageUser")
+    @GetMapping("/getUser")
     public R<List<User>> getUser() {
         List<User> users = userService.list();
         return R.ok(users);
@@ -96,14 +96,9 @@ public class UserController {
      * @return 删除的用户
      */
     @DeleteMapping()
-    public R<User> deleteUser(User user) {
+    public R<User> deleteUser(@RequestBody User user) {
         boolean b = userService.removeUser(user);
         return b ? R.ok(user) : null;
     }
 
-    @GetMapping("/url")
-    public R<String> getFileUrl(Long id){
-        R<String> url = ucmsSystemFeign.getUrl(id);
-        return url;
-    }
 }

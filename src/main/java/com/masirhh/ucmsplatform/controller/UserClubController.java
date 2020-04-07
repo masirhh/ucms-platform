@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.masirhh.ucmsplatform.domain.User;
 import com.masirhh.ucmsplatform.domain.UserClub;
+import com.masirhh.ucmsplatform.service.ClubService;
 import com.masirhh.ucmsplatform.service.UserClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ import java.util.List;
 public class UserClubController {
     @Autowired
     UserClubService userClubService;
+    @Autowired
+    ClubService clubService;
 
     /***
      * 查询列表
@@ -37,8 +40,8 @@ public class UserClubController {
      * @return
      */
     @GetMapping("get-user-by-club")
-    public R<List<User>> getUserByClub(@RequestParam(value = "clubId")Long clubId){
-        List<User> users=userClubService.getUserByClubId(clubId);
+    public R<List<User>> getUserByClub(@RequestParam(value = "clubId") Long clubId) {
+        List<User> users = userClubService.getUserByClubId(clubId);
         return R.ok(users);
     }
 
@@ -86,8 +89,8 @@ public class UserClubController {
      * @return 是否删除成功
      */
     @DeleteMapping()
-    public R<Boolean> deleteUserClub(@RequestBody UserClub userClub){
-        boolean remove = userClubService.remove(new QueryWrapper<UserClub>().eq(UserClub.FIELD_USER_ID, userClub.getUserId()).eq(UserClub.FIELD_CLUB_ID, userClub.getClubId()));
+    public R<Boolean> deleteUserClub(@RequestBody UserClub userClub) {
+        boolean remove = userClubService.deleteClubUser(userClub);
         return R.ok(remove);
     }
 }

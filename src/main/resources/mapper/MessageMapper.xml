@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.masirhh.ucmsplatform.mapper.MessageMapper">
+    <select id="list" resultType="com.masirhh.ucmsplatform.domain.dto.MessageDto">
+        select um.*,
+        uu.name from_name,
+        uuu.name to_name
+        from up_message um
+        left join
+                    up_user uu on (um.from_user_id = uu.id)
+        left join up_user uuu on (um.to_user_id = uuu.id)
+
+    </select>
+
+
+</mapper>

@@ -32,6 +32,4 @@ public class Club {
     private Long admin;
     private Long avatar;
 
-//    @Transient
-//    private String typeName;
 }

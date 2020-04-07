@@ -45,7 +45,7 @@ public class ClubTypeController {
      * @return 新建的社团类型
      */
     @PostMapping
-    public R<ClubType> insertClubType(ClubType clubType) {
+    public R<ClubType> insertClubType(@RequestBody ClubType clubType) {
         boolean save = clubTypeService.save(clubType);
         return save ? R.ok(clubType) : R.failed("Error!");
     }

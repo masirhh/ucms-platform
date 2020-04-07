@@ -19,16 +19,35 @@ public class ActivityController {
     ActivityService activityService;
 
     /**
-     * 获取所有活动列表
+     * 获取首页活动列表
      *
      * @return 活动列表
      */
     @GetMapping
     public R<PageInfo<Activity>> getActivity(Integer pageNum) {
-        PageHelper.startPage(pageNum,5);
+        PageHelper.startPage(pageNum, 5);
         List<Activity> list = activityService.list(new QueryWrapper<Activity>().orderByDesc(Activity.FIELD_ORGANIZE_TIME));
-        PageInfo pageActivity=new PageInfo(list);
+        PageInfo pageActivity = new PageInfo(list);
         return R.ok(pageActivity);
+    }
+
+    /**
+     * 获取所有活动列表
+     *
+     * @return 活动列表
+     */
+    @GetMapping("/getallacts")
+    public R<List<Activity>> getAllAct() {
+        List<Activity> list = activityService.list();
+        return R.ok(list);
+    }
+
+    @GetMapping("/homeact")
+    public R<PageInfo<Activity>> getHomeAct(@RequestParam(value = "pageNum")Integer pageNum) {
+        PageHelper.startPage(pageNum,10);
+        List<Activity> list = activityService.list();
+        PageInfo pageInfo = new PageInfo(list);
+        return R.ok(pageInfo);
     }
 
     /***
@@ -39,12 +58,13 @@ public class ActivityController {
      */
 
     @GetMapping("/searchact")
-    public R<PageInfo<Activity>> searchActivity(Integer pageNum,String actName) {
-        PageHelper.startPage(pageNum,5);
-        List<Activity> list = activityService.list(new QueryWrapper<Activity>().like(Activity.FIELD_NAME,actName).orderByDesc(Activity.FIELD_ORGANIZE_TIME));
-        PageInfo pageActivity=new PageInfo(list);
+    public R<PageInfo<Activity>> searchActivity(Integer pageNum, String actName) {
+        PageHelper.startPage(pageNum, 5);
+        List<Activity> list = activityService.list(new QueryWrapper<Activity>().like(Activity.FIELD_NAME, actName).orderByDesc(Activity.FIELD_ORGANIZE_TIME));
+        PageInfo pageActivity = new PageInfo(list);
         return R.ok(pageActivity);
     }
+
     /**
      * 查询活动详情
      *
@@ -57,9 +77,13 @@ public class ActivityController {
         return R.ok(byId);
     }
 
+    /***
+     * 查询社团发布的活动
+     * @param clubId
+     * @return
+     */
     @GetMapping("/myactivities")
-    public R<List<Activity>> getMyAct(@RequestParam(value = "clubId") Long clubId){
-        System.out.println(clubId);
+    public R<List<Activity>> getMyAct(@RequestParam(value = "clubId") Long clubId) {
         List<Activity> list = activityService.list(new QueryWrapper<Activity>().eq(Activity.FIELD_CLUB_ID, clubId));
         return R.ok(list);
     }
@@ -73,7 +97,6 @@ public class ActivityController {
      */
     @PostMapping()
     public R<Boolean> insertActivity(@RequestBody Activity activity) {
-        System.out.println(activity);
         boolean save = activityService.save(activity);
         return R.ok(save);
     }
@@ -89,6 +112,7 @@ public class ActivityController {
         boolean b = activityService.updateById(activity);
         return b ? R.ok(activity) : R.failed("Error!");
     }
+
 
     /**
      * 删除活动

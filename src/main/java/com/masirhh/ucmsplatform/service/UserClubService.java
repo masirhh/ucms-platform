@@ -10,4 +10,6 @@ public interface UserClubService extends IService<UserClub> {
     boolean saveUserAndClub(UserClub userClub);
 
     List<User> getUserByClubId(Long clubId);
+
+    boolean deleteClubUser(UserClub userClub);
 }
