@@ -11,6 +11,8 @@
             up_club_type uct
         where
             ucb.type=uct.id
+        and
+            ucb.enable_flag=1
     </select>
 
     <select id="getClubDto" resultType="com.masirhh.ucmsplatform.domain.dto.ClubDto">
@@ -28,6 +30,8 @@
             uc.type=uct.id
         and
             uc.admin=uu.id
+        and
+            uc.enable_flag=1
     </select>
 
     <select id="getUserByClubId" resultType="com.masirhh.ucmsplatform.domain.User">

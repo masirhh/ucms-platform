@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ucms/redis")
 public class RedisController {
 
+    /***
+     * 在redis中获取登陆的用户信息
+     * @param key redis的键
+     * @return
+     */
     @GetMapping("/getUser")
     public R<String> ifLogin(String key) {
         String s = redisTools.redisGet(key);

@@ -52,11 +52,11 @@ public class ClubController {
         PageHelper.startPage(pageNum, 6);
         List<Club> list = new ArrayList<>();
         if (cname != null) {
-            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname));
+            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname).eq(Club.FIELD_ENABLE_FLAG,1));
             PageInfo pageInfo = new PageInfo(list);
             return R.ok(pageInfo);
         }
-        list = clubService.list();
+        list = clubService.list(new QueryWrapper<Club>().eq(Club.FIELD_ENABLE_FLAG,1));
         PageInfo pageInfo = new PageInfo(list);
         return R.ok(pageInfo);
     }
@@ -74,11 +74,11 @@ public class ClubController {
         PageHelper.startPage(pageNum, 6);
         List<Club> list = new ArrayList();
         if (cname != null) {
-            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname).eq(Club.FIELD_TYPE, ctypeid));
+            list = clubService.list(new QueryWrapper<Club>().like(Club.FIELD_NAME, cname).eq(Club.FIELD_TYPE, ctypeid).eq(Club.FIELD_ENABLE_FLAG,1));
             PageInfo pageInfo = new PageInfo(list);
             return R.ok(pageInfo);
         }
-        list = clubService.list(new QueryWrapper<Club>().eq(Club.FIELD_TYPE, ctypeid));
+        list = clubService.list(new QueryWrapper<Club>().eq(Club.FIELD_TYPE, ctypeid).eq(Club.FIELD_ENABLE_FLAG,1));
         PageInfo pageInfo = new PageInfo(list);
         return R.ok(pageInfo);
     }

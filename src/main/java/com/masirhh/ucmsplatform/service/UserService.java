@@ -18,5 +18,10 @@ public interface UserService extends IService<User> {
      */
     User loginUser(User user);
 
+    /***
+     * 检查用户的密码是否正确
+     * @param user
+     * @return
+     */
     User checkPwd(User user);
 }

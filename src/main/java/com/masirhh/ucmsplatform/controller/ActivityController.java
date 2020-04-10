@@ -42,6 +42,11 @@ public class ActivityController {
         return R.ok(list);
     }
 
+    /***
+     * 获取首页活动
+     * @param pageNum
+     * @return
+     */
     @GetMapping("/homeact")
     public R<PageInfo<Activity>> getHomeAct(@RequestParam(value = "pageNum")Integer pageNum) {
         PageHelper.startPage(pageNum,10);
