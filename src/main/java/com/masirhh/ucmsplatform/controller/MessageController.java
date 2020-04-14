@@ -52,11 +52,17 @@ public class MessageController {
      * @return
      */
     @GetMapping("/mymessage")
-    public R<PageInfo<Message> > getMyMessage(Message message,@RequestParam(value = "pageNum")Integer pageNum) {
-        PageHelper.startPage(pageNum,4);
-        List<Message> list = messageService.list(new QueryWrapper<>(message));
-        PageInfo<Message> messagePageInfo = new PageInfo(list);
-        return R.ok(messagePageInfo);
+    public R<PageInfo<Message>> getMyMessage(Message message, @RequestParam(value = "pageNum") Integer pageNum) {
+        PageHelper.startPage(pageNum, 4);
+        if (message.getFromUserId() == null) {
+            List<Message> list = messageService.list(new QueryWrapper<Message>().ne(Message.FIELD_FROM_USER_ID, 1));
+            PageInfo<Message> messagePageInfo = new PageInfo(list);
+            return R.ok(messagePageInfo);
+        } else {
+            List<Message> list = messageService.list(new QueryWrapper<>(message));
+            PageInfo<Message> messagePageInfo = new PageInfo(list);
+            return R.ok(messagePageInfo);
+        }
     }
 
     /***
