@@ -74,7 +74,11 @@ public class UserController {
      */
     @PostMapping()
     public R<User> insertUser(@RequestBody User user) {
-        boolean insert = userService.save(user);
+        User one = userService.getOne(new QueryWrapper<>(user));
+        boolean insert=false;
+        if (one ==null){
+            insert = userService.save(user);
+        }
         return insert ? R.ok(user) : R.failed("Error!");
     }
 

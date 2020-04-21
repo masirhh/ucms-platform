@@ -55,7 +55,7 @@ public class MessageController {
     public R<PageInfo<Message>> getMyMessage(Message message, @RequestParam(value = "pageNum") Integer pageNum) {
         PageHelper.startPage(pageNum, 4);
         if (message.getFromUserId() == null) {
-            List<Message> list = messageService.list(new QueryWrapper<Message>().ne(Message.FIELD_FROM_USER_ID, 1));
+            List<Message> list = messageService.list(new QueryWrapper<Message>().ne(Message.FIELD_FROM_USER_ID, 1).eq(Message.FIELD_TO_USER_ID,message.getToUserId()));
             PageInfo<Message> messagePageInfo = new PageInfo(list);
             return R.ok(messagePageInfo);
         } else {
@@ -86,6 +86,17 @@ public class MessageController {
     public R<Message> deleteMessage(@RequestBody Message message) {
         boolean b = messageService.removeById(message.getId());
         return b ? R.ok(message) : R.failed("Error!");
+    }
+
+    /***
+     * 修改消息
+     * @param message 修改的消息
+     * @return 修改的消息
+     */
+    @PutMapping
+    public R<Message> updateMessage(@RequestBody Message message){
+        boolean update = messageService.updateById(message);
+        return update? R.ok(message):R.failed("Error!");
     }
 
 }
