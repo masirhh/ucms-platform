@@ -1,6 +1,9 @@
 package com.masirhh.ucmsplatform.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.masirhh.ucmsplatform.domain.Comment;
 import com.masirhh.ucmsplatform.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +40,25 @@ public class CommentController {
      * @return 新建的评论
      */
     @PostMapping
-    public R<Comment> insertComment(Comment comment) {
+    public R<Comment> insertComment(@RequestBody Comment comment) {
         boolean save = commentService.save(comment);
         return save ? R.ok(comment) : R.failed("Error!");
     }
+
+    /***
+     * 获得评论列表
+     * @param articleId 文章id
+     * @param pageNum 当前页
+     * @return 评论列表
+     */
+    @GetMapping("/articleid")
+    public R<PageInfo<Comment>> getCommentById(@RequestParam(value = "articleId") Integer articleId, @RequestParam(value = "pageNum") Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        List<Comment> list = commentService.list(new QueryWrapper<Comment>().eq(Comment.FIELD_ARTICLE_ID, articleId).orderByDesc(Comment.FIELD_CREATE_TIME));
+        PageInfo<Comment> commentPageInfo = new PageInfo<Comment>(list);
+        return R.ok(commentPageInfo);
+    }
+
 
     /***
      * 删除评论
