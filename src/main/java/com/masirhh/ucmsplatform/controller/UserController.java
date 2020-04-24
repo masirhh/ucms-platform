@@ -20,6 +20,16 @@ public class UserController {
     @Autowired
     UcmsSystemFeign ucmsSystemFeign;
 
+    /**
+     * 登陆管理员
+     * @param user 管理员
+     * @return 是否登陆成功
+     */
+    @GetMapping("/loginadmin")
+    public R<Boolean> loginAdmin(User user){
+        User one = userService.getOne(new QueryWrapper<User>().eq(User.FIELD_NAME, user.getName()).eq(User.FIELD_PASSWORD, user.getPassword()).eq(User.FIELD_USER_TYPE, 3));
+        return one!=null?R.ok(true):R.ok(false);
+    }
 
     /***
      * 用户登陆
